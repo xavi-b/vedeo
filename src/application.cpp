@@ -54,7 +54,7 @@ void Application::newConnectionHandler()
 
 void Application::readyReadHandler()
 {
-    QLocalSocket* localSocket = qobject_cast<QLocalSocket*>(sender());
+    QLocalSocket* localSocket = qobject_cast<QLocalSocket*>(this->sender());
     if(localSocket)
     {
         QStringList arguments;
@@ -63,4 +63,64 @@ void Application::readyReadHandler()
         ds >> arguments;
         this->processArguments(arguments);
     }
+}
+
+QString Application::translationsDir() const
+{
+    return ":/translations";
+}
+
+bool Application::switchLocale(QString const& locale)
+{
+    if(this->getAvailableLocales().contains(locale))
+    {
+        this->removeTranslator(&this->translator);
+
+        QString path = this->translationsDir() + "/" + locale + ".qm";
+        if(translator.load(path))
+            this->installTranslator(&translator);
+
+        this->setCurrentLocale(this->defaultLocale);
+
+        return true;
+    }
+
+    return false;
+}
+
+QStringList Application::getAvailableLocales() const
+{
+    QDir dir(this->translationsDir());
+    QStringList tsFiles = dir.entryList(QStringList("*.qm"));
+
+    QStringList locales;
+    locales << this->defaultLocale;
+    for (int i = 0; i < tsFiles.size(); ++i)
+    {
+        QString locale = tsFiles[i];
+        locale.truncate(locale.lastIndexOf('.'));
+        locales << locale;
+    }
+    return locales;
+}
+
+void Application::setDefaultLocale(const QString& s)
+{
+    this->defaultLocale = s;
+    if(this->currentLocale.isEmpty())
+        this->setCurrentLocale(this->defaultLocale);
+}
+
+void Application::setCurrentLocale(const QString& s)
+{
+    this->currentLocale = s;
+    QLocale::setDefault(this->currentLocale);
+}
+
+QString Application::getCurrentLocale()
+{
+    if(this->currentLocale.isEmpty())
+        this->setCurrentLocale(this->defaultLocale);
+
+    return this->currentLocale;
 }

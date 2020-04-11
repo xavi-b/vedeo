@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/translations">
-        <file alias="fr_FR.ts">translations/fr_FR.ts</file>
+        <file alias="fr_FR.qm">translations/fr_FR.qm</file>
     </qresource>
-    <qresource prefix="/credits">
-    </qresource>
+    <qresource prefix="/credits"/>
 </RCC>
