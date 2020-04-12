@@ -30,7 +30,7 @@ public:
                 int argc, char *argv[]);
 
     virtual int startRunning();
-    QString getUniqueLocalServerName() const;
+    QString getUniqueApplicationName() const;
     void newConnectionHandler();
     void readyReadHandler();
     virtual void run() = 0;
@@ -44,6 +44,8 @@ public:
     void setConnectionTimeout(int i) { this->connectionTimeout = i; }
     void setDefaultLocale(QString const& s);
     QString getCurrentLocale();
+
+    static Application* instance();
 
 signals:
 

@@ -16,7 +16,7 @@ int Application::startRunning()
     if(this->uniqueInstance)
     {
         QLocalSocket localSocket;
-        localSocket.connectToServer(this->getUniqueLocalServerName());
+        localSocket.connectToServer(this->getUniqueApplicationName());
         if(localSocket.waitForConnected(this->connectionTimeout))
         {
             QByteArray data;
@@ -27,7 +27,7 @@ int Application::startRunning()
         }
         else
         {
-            localServer.listen(this->getUniqueLocalServerName());
+            localServer.listen(this->getUniqueApplicationName());
             connect(&localServer, &QLocalServer::newConnection, this, &Application::newConnectionHandler);
         }
     }
@@ -37,7 +37,7 @@ int Application::startRunning()
     return this->exec();
 }
 
-QString Application::getUniqueLocalServerName() const
+QString Application::getUniqueApplicationName() const
 {
     return QString("%1_%2_%3")
             .arg(this->applicationName())
@@ -91,11 +91,11 @@ bool Application::switchLocale(QString const& locale)
 QStringList Application::getAvailableLocales() const
 {
     QDir dir(this->translationsDir());
-    QStringList tsFiles = dir.entryList(QStringList("*.qm"));
+    QStringList tsFiles = dir.entryList(QStringList("*.qm"), QDir::Filter::Files);
 
     QStringList locales;
     locales << this->defaultLocale;
-    for (int i = 0; i < tsFiles.size(); ++i)
+    for(int i = 0; i < tsFiles.size(); ++i)
     {
         QString locale = tsFiles[i];
         locale.truncate(locale.lastIndexOf('.'));
@@ -123,4 +123,9 @@ QString Application::getCurrentLocale()
         this->setCurrentLocale(this->defaultLocale);
 
     return this->currentLocale;
+}
+
+Application* Application::instance()
+{
+    return qobject_cast<Application*>(QCoreApplication::instance());
 }
