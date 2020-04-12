@@ -1,11 +1,11 @@
 #ifndef FILELOGGER_H
 #define FILELOGGER_H
 
-#include <QObject>
+#include <QThread>
 #include <QFile>
 #include "logger.h"
 
-class FileLogger : public QObject
+class FileLogger : public QThread
 {
     Q_OBJECT
 private:
@@ -17,6 +17,8 @@ private:
     QString getLogFilenameFormat(QString const& baseFilename, char c) const;
     QString getLogFilenameFormat(QString const& baseFilename, int currentLogFileNum) const;
     QString getCurrentLogFilename() const;
+
+    virtual void run() override;
 
 public:
     FileLogger(QString const& dirPath, QObject* parent = nullptr);

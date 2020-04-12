@@ -55,17 +55,26 @@ QString FileLogger::getCurrentLogFilename() const
     return dir.filePath(this->getLogFilenameFormat(baseFilename, currentLogFileNum));
 }
 
-FileLogger::FileLogger(QString const& dirPath, QObject* parent)
-    : QObject(parent), dirPath(dirPath)
+void FileLogger::run()
 {
-    connect(Logger::instance(), &Logger::logWritten, this, &FileLogger::logWrittenHandler);
     this->currentLogFile.setFileName(this->getCurrentLogFilename());
     if(!this->currentLogFile.open(QIODevice::Append | QIODevice::Text | QIODevice::ReadWrite))
         emit fileError(this->currentLogFile.error());
+
+    this->exec();
+
+    if(this->currentLogFile.isOpen())
+        this->currentLogFile.close();
+}
+
+FileLogger::FileLogger(QString const& dirPath, QObject* parent)
+    : QThread(parent), dirPath(dirPath)
+{
+    connect(Logger::instance(), &Logger::logWritten, this, &FileLogger::logWrittenHandler);
 }
 
 FileLogger::~FileLogger()
 {
-    if(this->currentLogFile.isOpen())
-        this->currentLogFile.close();
+    if(this->isRunning())
+        this->quit();
 }
