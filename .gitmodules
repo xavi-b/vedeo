@@ -1,0 +1,6 @@
+[submodule "third-party/xblog"]
+	path = third-party/xblog
+	url = git@github.com:xavi-b/xblog.git
+[submodule "third-party/xbapplication"]
+	path = third-party/xbapplication
+	url = git@github.com:xavi-b/xbapplication.git

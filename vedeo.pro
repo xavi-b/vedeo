@@ -9,7 +9,12 @@ SUBDIRS += \
 include(src/src.pri)
 include(res/res.pri)
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+LIBS += -L$$PWD/third-party/xblog/
+LIBS += -lxblog
+INCLUDEPATH += $$PWD/third-party/xblog/src/
+DEPENDPATH += $$PWD/third-party/xblog/src/
+
+LIBS += -L$$PWD/third-party/xbapplication/
+LIBS += -lxbapplication
+INCLUDEPATH += $$PWD/third-party/xbapplication/src/
+DEPENDPATH += $$PWD/third-party/xbapplication/src/
