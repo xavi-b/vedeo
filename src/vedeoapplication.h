@@ -4,7 +4,7 @@
 #include "application.h"
 #include "vedeomainwindow.h"
 
-class VedeoApplication : public Application
+class VedeoApplication : public XB::Application
 {
     Q_OBJECT
 private:

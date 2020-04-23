@@ -8,13 +8,8 @@ SUBDIRS += \
 
 include(src/src.pri)
 include(res/res.pri)
+include(third-party/xblog/xblog.pro)
+include(third-party/xbapplication/xbapplication.pro)
 
-LIBS += -L$$PWD/third-party/xblog/
-LIBS += -lxblog
-INCLUDEPATH += $$PWD/third-party/xblog/src/
-DEPENDPATH += $$PWD/third-party/xblog/src/
-
-LIBS += -L$$PWD/third-party/xbapplication/
-LIBS += -lxbapplication
-INCLUDEPATH += $$PWD/third-party/xbapplication/src/
-DEPENDPATH += $$PWD/third-party/xbapplication/src/
+TEMPLATE     = app
+TARGET       = vedeo
