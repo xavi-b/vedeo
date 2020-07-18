@@ -17,7 +17,7 @@ public:
                      int argc, char *argv[]);
     ~VedeoApplication();
 
-    virtual void run() override;
+    void run();
     virtual void processArguments(QStringList const& args) override;
 };
 
