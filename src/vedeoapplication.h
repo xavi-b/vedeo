@@ -14,7 +14,7 @@ public:
     VedeoApplication(QString const& applicationName,
                      QString const& organizationDomain,
                      QString const& organizationName,
-                     int argc, char *argv[]);
+                     int& argc, char *argv[]);
     ~VedeoApplication();
 
     void run();

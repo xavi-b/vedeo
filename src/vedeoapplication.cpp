@@ -3,7 +3,7 @@
 VedeoApplication::VedeoApplication(QString const& applicationName,
                                    QString const& organizationDomain,
                                    QString const& organizationName,
-                                   int argc, char *argv[])
+                                   int& argc, char *argv[])
     : Application(applicationName,
                   organizationDomain,
                   organizationName,
